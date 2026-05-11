@@ -50,13 +50,21 @@ body {
 
 #app {
     position: relative;
-    z-index: 1;
+    /*z-index: 1;*/
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
 
+main {
+    min-height: 65vh; /* 最低限の高さは保つ */
+    height: auto;     /* 中身に合わせて伸びるようにする */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px; /* ボタンとの間に少し余白を作る */
+}
 /*
 =================================================
 背景レイヤー
@@ -68,7 +76,7 @@ body {
     inset: 0;
     background-size: cover;
     background-position: center;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1.2s ease-in-out;
 }
 
 #bg-blur {
@@ -82,7 +90,7 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
 }
-
+  
 /*
 =================================================
 タイトル・アイコン
@@ -116,17 +124,25 @@ h1 {
 =================================================
 */
 
+.search-box {
+    display: flex;
+    justify-content: center;
+    height: 5vh;
+}
+
 .search-container {
     position: relative;
     display: block;
     width: 300px;
     display: flex;
     justify-content: center;
-    height: 35px;
+    height: 4vh;
 }
 
 .input-box {
     width: 220px;
+    height: 100%;
+    padding: 0 10px;
     border-radius: 20px 0 0 20px;
     font-size: 14px;
     text-align: center;
@@ -135,6 +151,8 @@ h1 {
 .search-btn {
     background-image: linear-gradient(135deg, #43a047, #1b5e20, #003300);
     width: 80px;
+    height: 100%; /* 親コンテナの height: 35px に合わせる */
+    padding: 0;   /* button グローバルの padding: 12px 0 を打ち消す */
     border-radius: 0 20px 20px 0;
     align-items: center;
     justify-content: center;
@@ -258,7 +276,7 @@ h1 {
 */
 #roulette {
     font-family: "Shippori Mincho", "MS PMincho", "serif";
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     font-size: 80px;
     font-weight: 900;
     height: 1.2em;
@@ -353,7 +371,7 @@ h1 {
 
 .phrase-line {
     line-height: 1.2;
-    font-size: 1.3rem;
+    font-size: 3vh;
 }
 
 .author {
@@ -372,8 +390,8 @@ h1 {
 
 #translationArea {
     margin: 10px 0;
-    max-width: 600px;
-    width: 50vw;
+    max-width: 750px;
+    width: 60vw;    
 }
 
 #translationText {
@@ -391,13 +409,17 @@ h1 {
 =================================================
 */
 .controls {
+    /*position: fixed;
+    bottom: 8vw;
+    left: 50%;
+    transform: translateX(-50%);*/
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
     width: 90%;
-    max-width: 50vw;
+    max-width: 50vw;;
 }
 
 button {
@@ -411,7 +433,7 @@ button {
     width: 180px;
     position: relative;
     overflow: hidden;
-    z-index: 1;
+    /*z-index: 1;*/
     box-shadow:
         2px 5px 0 var(--color-primary),
         6px 10px 15px rgba(0, 0, 0, 0.3);
@@ -439,7 +461,7 @@ button::after {
         transparent
     );
     transition: left 0.5s;
-    z-index: -1;
+    /*z-index: -1;*/
 }
 
 button:hover::after {
@@ -508,6 +530,11 @@ button:active:not(:disabled) {
 }
 
 #history {
+    /*position: fixed;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);*/
+    
     background: rgb(0, 0, 0);
     backdrop-filter: blur(5px);
     border-radius: var(--radius-lg);
@@ -515,11 +542,56 @@ button:active:not(:disabled) {
     width: fit-content;
     height: fit-content;
     min-width: 300px;
-    padding: 10px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.history-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    color: var(--color-white);
+    font-family: inherit;
+    box-shadow: none;
+    transition: background 0.2s;
+}
+
+.history-toggle:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+    transform: none;
+    box-shadow: none;
+    filter: none;
+}
+
+.history-toggle::after {
+    display: none;
+}
+
+.history-toggle-count {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1;
+}
+
+.history-toggle-label {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.history-toggle-arrow {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-left: auto;
 }
 
 .history-header {
-    /*display: flex;*/
     text-align: center;
     align-items: center;
     gap: 10px;
@@ -538,7 +610,7 @@ button:active:not(:disabled) {
 }
 
 #historyList {
-    padding: 0;
+    padding: 0 10px 10px;
     list-style: none;
     width: 100%;
 }
@@ -584,14 +656,17 @@ button:active:not(:disabled) {
     text-decoration: underline;
 }
 
-footer {
-    position: fixed;
+.narrator {
+    /*position: fixed;*/
     font-weight: 800;
-    bottom: 0;
-    left: 0;
+    /*bottom: 0;
+    left: 0;*/
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    /*background-color: rgba(0, 0, 0, 0.5);*/
     color: var(--color-white);
+    text-shadow:
+        1px 1px 0px #ffeb3b,
+        3px 3px 0px var(--color-primary);
     text-align: center;
     padding: 10px 0;
 }
@@ -687,7 +762,7 @@ footer {
     }
 
     #roulette {
-        font-size: 70px;
+        font-size: 50px;
         font-weight: normal;
     }
 
@@ -695,6 +770,10 @@ footer {
         display: none;
     }
 
+    .countdown {
+        font-size: 30px;
+    }
+    
     #poem {
         background: none;
         backdrop-filter: none;
@@ -740,6 +819,7 @@ footer {
         background: transparent;
         width: 80%;
         border: 2px solid #000;
+        padding: 0;
     }
 
     #history h3 {

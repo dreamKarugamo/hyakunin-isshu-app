@@ -11,7 +11,8 @@ interface SearchFormProps {
 
 export const SearchForm: React.FC<SearchFormProps> = ({ query, onQueryChange, onSearch, state }) => {
     return (
-        <div className={`search-container ${state !== "idle" ? "hide-on-desktop" : ""}`}>
+        <div className="search-box">
+            <div className={`search-container ${state !== "idle" ? "hide-on-desktop" : ""}`}>
             <input
                 className="input-box"
                 type="text"
@@ -23,6 +24,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ query, onQueryChange, on
             <button type="button" className="search-btn" onClick={onSearch}>
                 検索
             </button>
+            </div>
         </div>
     );
 };

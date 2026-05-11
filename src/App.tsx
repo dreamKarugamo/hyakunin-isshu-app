@@ -167,9 +167,8 @@ const App: React.FC = () => {
                         if (targetPoem) return targetPoem;
 
                         if (remainingIdsRef.current.length === 0) {
-                            remainingIdsRef.current = hyakuninIsshuData.map(
-                                (p) => Number(p.id),
-                            );
+                            stopAllRef.current();
+                            return null;
                         }
 
                         const pool = remainingIdsRef.current;
@@ -186,6 +185,7 @@ const App: React.FC = () => {
                     };
 
                     const chosenPoem = getNextPoem();
+                    if (!chosenPoem) return;
                     setRouletteNum(String(chosenPoem.id));
 
                     const onComplete = isAutoModeRef.current
@@ -213,6 +213,11 @@ const App: React.FC = () => {
         } else {
             const dummyAudio = new Audio();
             dummyAudio.play().catch(() => {});
+
+            // 全首読み終えて止まっていた場合はリセットして再開
+            if (remainingIdsRef.current.length === 0) {
+                remainingIdsRef.current = hyakuninIsshuData.map((p) => Number(p.id));
+            }
 
             startRoulette();
         }
@@ -312,19 +317,19 @@ const App: React.FC = () => {
                 </button>
             </div>
 
-            {(state === "idle" || showAuthor) && (
+            
+
+            <div id="stars" />
+
+            <div className="narrator">音声：VOICEVOX:ずんだもん</div>
+
+            
                 <HistorySection
                     history={history}
                     onSelect={handleSelectPoem}
                     onClear={clearHistory}
                 />
-            )}
-
-            <div id="stars" />
-
-            <footer style={{ textAlign: 'center', padding: '10px', fontSize: '0.8rem', opacity: 0.7 }}>
-                音声：VOICEVOX:ずんだもん
-            </footer>
+            
         </div>
     );
 };

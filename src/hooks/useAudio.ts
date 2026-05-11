@@ -1,49 +1,51 @@
 import { useCallback, useRef } from "react";
 
-// 音声ファイルが読み込めない場合
-const AUDIO_SAFETY_TIMEOUT_MS = 3000;
+const AUDIO_SAFETY_TIMEOUT_MS = 5000;
 
 export function useAudio() {
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const audioRef = useRef<HTMLAudioElement>(new Audio());
 
     const stop = useCallback(() => {
-        if (audioRef.current) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            audioRef.current = null;
-        }
+        const audio = audioRef.current;
+        audio.pause();
+        audio.currentTime = 0;
     }, []);
 
     const playSync = useCallback(
         (src: string): Promise<void> => {
             return new Promise((resolve) => {
-                stop();
-                const audio = new Audio(src);
+                const audio = audioRef.current;
+                
+                audio.pause();
+                audio.src = src;
+                audio.load();
                 audio.playbackRate = 0.9;
-                audioRef.current = audio;
 
-                const safetyTimer = window.setTimeout(
-                    resolve,
-                    AUDIO_SAFETY_TIMEOUT_MS,
-                );
+                const safetyTimer = window.setTimeout(() => {
+                    console.warn("Audio timeout:", src);
+                    resolve();
+                }, AUDIO_SAFETY_TIMEOUT_MS);
 
                 audio.onended = () => {
                     window.clearTimeout(safetyTimer);
                     resolve();
                 };
 
-                audio.onerror = () => {
+                audio.onerror = (e) => {
+                    console.error("Audio error:", e);
                     window.clearTimeout(safetyTimer);
                     resolve();
                 };
 
-                audio.play().catch(() => {
+                // 再生
+                audio.play().catch((err) => {
+                    console.error("Play blocked:", err);
                     window.clearTimeout(safetyTimer);
                     resolve();
                 });
             });
         },
-        [stop],
+        [],
     );
 
     return { playSync, stop };

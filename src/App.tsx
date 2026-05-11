@@ -100,7 +100,7 @@ const App: React.FC = () => {
 
                 setDisplayedPhrases((prev) => [...prev, phrases[i]]);
                 await playSync(`/audio/${poem.id}_${i}.mp3`);
-                if (i < phrases.length - 1) {
+               if (i < phrases.length - 1) {
                     await delay(i === 2 ? 2000 : 800);
                 }
             }
@@ -211,6 +211,9 @@ const App: React.FC = () => {
             stopAll();
             setIsAutoMode(false);
         } else {
+            const dummyAudio = new Audio();
+            dummyAudio.play().catch(() => {}); 
+            
             startRoulette();
         }
     };

@@ -584,6 +584,18 @@ button:active:not(:disabled) {
     text-decoration: underline;
 }
 
+footer {
+    position: fixed;
+    font-weight: 800;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--color-white);
+    text-align: center;
+    padding: 10px 0;
+}
+
 /*
 =================================================
 アニメーション

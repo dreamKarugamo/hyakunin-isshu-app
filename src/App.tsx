@@ -212,8 +212,8 @@ const App: React.FC = () => {
             setIsAutoMode(false);
         } else {
             const dummyAudio = new Audio();
-            dummyAudio.play().catch(() => {}); 
-            
+            dummyAudio.play().catch(() => {});
+
             startRoulette();
         }
     };
@@ -322,6 +322,10 @@ const App: React.FC = () => {
 
             <div id="stars" />
         </div>
+
+        <footer style={{ textAlign: 'center', padding: '10px', fontSize: '0.8rem', opacity: 0.7 }}>
+            音声：VOICEVOX:ずんだもん
+        </footer>
     );
 };
 

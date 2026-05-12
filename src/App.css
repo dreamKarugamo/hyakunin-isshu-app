@@ -2,7 +2,7 @@
 
 /*
 =================================================
-CSS カスタムプロパティ（変数）
+CSS カスタムプロパティ
 =================================================
 */
 :root {
@@ -58,12 +58,12 @@ body {
 }
 
 main {
-    min-height: 65vh; /* 最低限の高さは保つ */
-    height: auto;     /* 中身に合わせて伸びるようにする */
+    min-height: 65vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 20px; /* ボタンとの間に少し余白を作る */
+    padding-bottom: 20px;
 }
 /*
 =================================================
@@ -71,7 +71,8 @@ main {
 =================================================
 */
 #bg-blur,
-#bg-clear {
+#bg-clear-a,
+#bg-clear-b {
     position: fixed;
     inset: 0;
     background-size: cover;
@@ -79,16 +80,31 @@ main {
     transition: opacity 1.2s ease-in-out;
 }
 
-#bg-blur {
+#bg-blur-a,
+#bg-blur-b {
     z-index: -2;
     filter: blur(20px) brightness(0.5);
     transform: scale(1.1);
 }
 
-#bg-clear {
+#bg-clear-a,
+#bg-clear-b {
     z-index: -1;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+#bg-blur {
+    z-index: -2;
+    filter: blur(20px) brightness(0.5);
+    transform: scale(1.1);
+}
+#bg-blur-a,
+#bg-blur-b,
+#bg-clear-a,
+#bg-clear-b {
+    transition: opacity 2000ms ease-in-out !important; 
+    will-change: opacity;
 }
   
 /*
@@ -151,8 +167,8 @@ h1 {
 .search-btn {
     background-image: linear-gradient(135deg, #43a047, #1b5e20, #003300);
     width: 80px;
-    height: 100%; /* 親コンテナの height: 35px に合わせる */
-    padding: 0;   /* button グローバルの padding: 12px 0 を打ち消す */
+    height: 100%;
+    padding: 0;
     border-radius: 0 20px 20px 0;
     align-items: center;
     justify-content: center;
@@ -409,10 +425,6 @@ h1 {
 =================================================
 */
 .controls {
-    /*position: fixed;
-    bottom: 8vw;
-    left: 50%;
-    transform: translateX(-50%);*/
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -433,7 +445,6 @@ button {
     width: 180px;
     position: relative;
     overflow: hidden;
-    /*z-index: 1;*/
     box-shadow:
         2px 5px 0 var(--color-primary),
         6px 10px 15px rgba(0, 0, 0, 0.3);
@@ -461,7 +472,6 @@ button::after {
         transparent
     );
     transition: left 0.5s;
-    /*z-index: -1;*/
 }
 
 button:hover::after {
@@ -530,11 +540,6 @@ button:active:not(:disabled) {
 }
 
 #history {
-    /*position: fixed;
-    bottom: 3vh;
-    left: 50%;
-    transform: translateX(-50%);*/
-    
     background: rgb(0, 0, 0);
     backdrop-filter: blur(5px);
     border-radius: var(--radius-lg);
@@ -657,12 +662,8 @@ button:active:not(:disabled) {
 }
 
 .narrator {
-    /*position: fixed;*/
     font-weight: 800;
-    /*bottom: 0;
-    left: 0;*/
     width: 100%;
-    /*background-color: rgba(0, 0, 0, 0.5);*/
     color: var(--color-white);
     text-shadow:
         1px 1px 0px #ffeb3b,
@@ -694,17 +695,19 @@ button:active:not(:disabled) {
 =================================================
 */
 @media screen and (max-width: 600px) {
-    #bg-blur,
-    #bg-clear {
+    #bg-blur-a,
+    #bg-blur-b,
+    #bg-clear-a,
+    #bg-clear-b {
         display: none;
-        position: fixed;
+        /*position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
         background-size: cover;
         background-position: center;
-        z-index: -1;
+        z-index: -1;*/
     }
 
     .search-container {
@@ -718,7 +721,7 @@ button:active:not(:disabled) {
     
     /* モバイル用画像エリア（メディアクエリ） */
     #mobileImageArea {
-        width: 80vw !important;
+        width: 75vw !important;
         height: 30vh !important;
         background-size: cover;
         background-position: center;
@@ -727,7 +730,8 @@ button:active:not(:disabled) {
         margin: 20px auto !important;        
         display: block !important;
         overflow: hidden;
-        flex-basis: 157px !important;
+        flex-basis: auto !important;
+        transition: background-image 2.0s ease-in-out;
     }
     
     body {

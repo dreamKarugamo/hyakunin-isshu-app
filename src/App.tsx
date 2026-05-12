@@ -19,13 +19,11 @@ import "./App.css";
 const App: React.FC = () => {
     const [isAutoMode, setIsAutoMode] = useState(false);
 
-    // Hooks
     const { history, addToHistory, clearHistory } = useHistory();
     const { addTimer, clearAll: clearAllTimers } = useTimers();
     const { playSync, stop: stopAudio } = useAudio();
     const search = useSearch();
 
-    // Core Logic Hook
     const {
         state,
         currentPoem,
@@ -60,7 +58,7 @@ const App: React.FC = () => {
         } else {
             startRoulette(undefined, isAutoMode);
         }
-    }, [state, stopAll, startRoulette, isAutoMode]);
+    }, [state, stopAll, startRoulette, isAutoMode, setCurrentPoem]);
 
     const handleSelectPoem = useCallback(
         (poem: Poem) => {
@@ -72,7 +70,7 @@ const App: React.FC = () => {
 
     return (
         <div id="app">
-            <BackgroundImages bgUrl={bgUrl} />
+            <BackgroundImages bgUrl={bgUrl} isCountdown={state === "countdown"} />
 
             <header>
                 <h1>

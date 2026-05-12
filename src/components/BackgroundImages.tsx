@@ -38,6 +38,7 @@ export const BackgroundImages: React.FC<BackgroundImagesProps> = ({
                 } else {
                     // LayerBを表示
                     setLayerB(bgUrl);
+                    
                     setTimeout(() => {
                         requestAnimationFrame(() => {
                             setShowB(true);
@@ -70,12 +71,37 @@ export const BackgroundImages: React.FC<BackgroundImagesProps> = ({
 
     const FADE_DURATION = "1200ms";
 
+    // const baseStyle: React.CSSProperties = {
+    //     position: "fixed",
+    //     inset: 0,
+    //     backgroundSize: "cover",
+    //     backgroundPosition: "center",
+    //     transition: `opacity ${FADE_DURATION} ease-in-out`,
+    // };
+
     const baseStyle: React.CSSProperties = {
         position: "fixed",
         inset: 0,
+        transition: `opacity ${FADE_DURATION} ease-in-out`,
+    };
+
+    // ぼかしレイヤー
+    const blurStyle: React.CSSProperties = {
+        ...baseStyle,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        transition: `opacity ${FADE_DURATION} ease-in-out`,
+        filter: "blur(20px) brightness(0.4)",
+        transform: "scale(1.1)",
+        zIndex: -2,
+    };
+
+    // クリアレイヤー
+    const clearStyle: React.CSSProperties = {
+        ...baseStyle,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        zIndex: -1,
     };
 
     return (
@@ -84,31 +110,25 @@ export const BackgroundImages: React.FC<BackgroundImagesProps> = ({
             <div
                 id="bg-blur-a"
                 style={{
-                    ...baseStyle,
+                    ...blurStyle,
                     backgroundImage: `url("${layerA}")`,
                     opacity: showB ? 0 : 1,
-                    filter: "blur(20px) brightness(0.5)",
-                    transform: "scale(1.1)",
                 }}
             />
             {/* ブラーレイヤー B */}
             <div
                 id="bg-blur-b"
                 style={{
-                    ...baseStyle,
+                    ...blurStyle,
                     backgroundImage: `url("${layerB}")`,
                     opacity: showB ? 1 : 0,
-                    filter: "blur(20px) brightness(0.5)",
-                    transform: "scale(1.1)",
                 }}
             />
             {/* クリアレイヤー A */}
             <div
                 id="bg-clear-a"
                 style={{
-                    ...baseStyle,
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
+                    ...clearStyle,
                     backgroundImage: `url("${layerA}")`,
                     opacity: showB ? 0 : 1,
                 }}
@@ -117,9 +137,7 @@ export const BackgroundImages: React.FC<BackgroundImagesProps> = ({
             <div
                 id="bg-clear-b"
                 style={{
-                    ...baseStyle,
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
+                    ...clearStyle,
                     backgroundImage: `url("${layerB}")`,
                     opacity: showB ? 1 : 0,
                 }}

@@ -40,8 +40,10 @@ const App: React.FC = () => {
         stopAudio,
         addTimer,
         clearAllTimers,
+        history, // 既読チェックのために履歴を渡す
     );
 
+    // 背景画像の制御
     const bgUrl = useMemo(
         () =>
             currentPoem
@@ -50,16 +52,18 @@ const App: React.FC = () => {
         [currentPoem],
     );
 
+    // メインボタン（開始・停止）の制御
     const handleMainAction = useCallback(() => {
-        if (state !== "idle") {
+        if (state !== "idle" && state !== "finished") {
             stopAll();
             setIsAutoMode(false);
             setCurrentPoem(null);
-        } else {
+        } else if (state === "idle") {
             startRoulette(undefined, isAutoMode);
         }
     }, [state, stopAll, startRoulette, isAutoMode, setCurrentPoem]);
 
+    // 特定の歌を選択して開始
     const handleSelectPoem = useCallback(
         (poem: Poem) => {
             search.clearSearch();
@@ -67,6 +71,13 @@ const App: React.FC = () => {
         },
         [search, startRoulette, isAutoMode],
     );
+
+    // 全件終了後のリセット処理
+    const handleReset = useCallback(() => {
+        clearHistory();
+        stopAll();
+        setIsAutoMode(false);
+    }, [clearHistory, stopAll]);
 
     return (
         <div id="app">
@@ -79,16 +90,27 @@ const App: React.FC = () => {
                 </h1>
             </header>
 
+            {/* 完了画面（Congratulations）のオーバーレイ */}
+            {state === "finished" && (
+                <div className="congrats-overlay">
+                    <div className="congrats-content">
+                        <h2>🎉 Congratulations! 🎉</h2>
+                        <p>全100首をすべて読み終えました！</p>
+                        <button onClick={handleReset} className="reset-btn">
+                            最初からやり直す
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <SearchForm
                 query={search.searchQuery}
                 onQueryChange={search.setSearchQuery}
                 onSearch={() => {
                     const results = search.executeSearch();
                     if (results.length === 1) {
-                        // 1件だけならそのまま再生
                         handleSelectPoem(results[0]);
                     } else if (results.length > 1) {
-                        // 複数件なら選択パネルを表示
                         search.setShowResults(true);
                     }
                 }}
@@ -125,13 +147,14 @@ const App: React.FC = () => {
                 <button
                     id="mainBtn"
                     onClick={handleMainAction}
+                    disabled={state === "finished"}
                     className={
-                        isAutoMode && state !== "idle"
+                        isAutoMode && state !== "idle" && state !== "finished"
                             ? "btn-stop"
                             : "btn-start"
                     }
                 >
-                    {isAutoMode && state !== "idle"
+                    {isAutoMode && state !== "idle" && state !== "finished"
                         ? "停止する"
                         : "ルーレット開始！"}
                     <br />
@@ -158,13 +181,12 @@ const App: React.FC = () => {
 
             <div className="narrator">音声：VOICEVOX: ずんだもん</div>
 
-            {(state === "idle" || showAuthor) && (
-                <HistorySection
-                    history={history}
-                    onSelect={handleSelectPoem}
-                    onClear={clearHistory}
-                />
-            )}
+            <HistorySection
+                history={history}
+                onSelect={handleSelectPoem}
+                onClear={clearHistory}
+            />
+            
             <div id="stars" />
         </div>
     );

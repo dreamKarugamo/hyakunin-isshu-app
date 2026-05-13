@@ -1173,7 +1173,7 @@ export const hyakuninIsshuData: Poem[] = [
     },
     {
         id: 90,
-        text: "見せばやな 雄島のあまの 袖だにも ぬれにぞぬれし 色はかはらず",
+        text: "見せばやな 雄島の海人の 袖だにも ぬれにぞぬれし 色はかはらず",
         historicalKana:
             "みせばやな をじまのあまの そでだにも ぬれにぞぬれし いろはかはらず",
         modernKana:

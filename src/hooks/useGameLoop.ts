@@ -1,8 +1,8 @@
 // インポート
-import { useState, useEffect, useRef, useCallback } from 'react';
-import type { Poem, AppState } from '../types/types';
-import { hyakuninIsshuData } from '../data/poemData';
-import { SETTINGS } from '../constants';
+import { useState, useEffect, useRef, useCallback } from "react";
+import type { Poem, AppState } from "../types/types";
+import { hyakuninIsshuData } from "../data/poemData";
+import { SETTINGS } from "../constants";
 
 export const useGameLoop = (
     playSync: (url: string) => Promise<void>,
@@ -10,22 +10,26 @@ export const useGameLoop = (
     stopAudio: () => void,
     addTimer: (id: number) => void,
     clearTimers: () => void,
+    history: Poem[],
 ) => {
     // =======================================
     // 状態管理
     // =======================================
 
     // useState-------------------
-    const [state, setState] = useState<AppState>('idle');
+    const [state, setState] = useState<AppState>("idle");
     const [currentPoem, setCurrentPoem] = useState<Poem | null>(null);
     const [displayedPoem, setDisplayedPoem] = useState<string[]>([]);
     const [rouletteNum, setRouletteNum] = useState<string>("？");
     const [showAuthor, setShowAuthor] = useState<boolean>(false);
     const [countdown, setCountdown] = useState<number | null>(null);
-    const [remainingIds, setRemainingIds] =
-        useState<number[]>(() =>
-            hyakuninIsshuData.map((p) => Number(p.id)),
-    );
+
+    const getRemainingIds = useCallback(() => {
+            const historyIds = new Set(history.map((p) => Number(p.id)));
+            return hyakuninIsshuData
+                .map((p) => Number(p.id))
+                .filter((id) => !historyIds.has(id));
+        }, [history]);
 
     // Refs-------------------
     // 非同期クロージャー内での最新参照用
@@ -35,7 +39,9 @@ export const useGameLoop = (
     }, [state]);
 
     // 循環参照回避用
-    const startRouletteRef = useRef<(target?: Poem, isAuto?: boolean) => void>(() => { });
+    const startRouletteRef = useRef<(target?: Poem, isAuto?: boolean) => void>(
+        () => {},
+    );
 
     // =======================================
     // アクション
@@ -97,24 +103,35 @@ export const useGameLoop = (
                     addTimer(tid);
                 });
 
-                if (stateRef.current as AppState !== "idle") {
+                if ((stateRef.current as AppState) !== "idle") {
                     startRouletteRef.current(undefined, true);
                 }
             } else {
                 await new Promise<void>((res) => {
-                        const tid = window.setTimeout(res, SETTINGS.DELAYS.AUTO_NEXT); // 既存の7000ms定数を流用
-                        addTimer(tid);
-                    });
-                    if (stateRef.current as AppState !== "idle") {
-                        stopAll();
-                    }
+                    const tid = window.setTimeout(
+                        res,
+                        SETTINGS.DELAYS.AUTO_NEXT,
+                    );
+                    addTimer(tid);
+                });
+                if ((stateRef.current as AppState) !== "idle") {
+                    stopAll();
+                }
             }
             return true;
-        }, [playSync, addToHistory, addTimer, stopAll],
+        },
+        [playSync, addToHistory, addTimer, stopAll],
     );
 
     const startRoulette = useCallback(
         (targetPoem?: Poem, isAuto = false) => {
+            // 読まれていない和歌のチェック
+            const pool = getRemainingIds();
+            if (!targetPoem && pool.length === 0) {
+                setState("finished");
+                return;
+            }
+            
             stopAll();
             setState("spinning");
             setDisplayedPoem([]);
@@ -123,8 +140,10 @@ export const useGameLoop = (
             let ticks = 0;
             const timerId = window.setInterval(async () => {
                 setRouletteNum(
-                    String(Math.floor(Math.random() * hyakuninIsshuData.length) + 1,
-                    )
+                    String(
+                        Math.floor(Math.random() * hyakuninIsshuData.length) +
+                            1,
+                    ),
                 );
                 ticks++;
 
@@ -133,17 +152,15 @@ export const useGameLoop = (
                 if (stateRef.current !== "spinning") return;
 
                 // ここで表示する和歌を決定
-                const chosen = targetPoem ||
+                const chosen =
+                    targetPoem ||
                     (() => {
-                        const pool = remainingIds.length > 0 ? remainingIds
-                        : hyakuninIsshuData.map((p) => Number(p.id));
-
-                        const id = pool[Math.floor(Math.random() * pool.length)];
-
-                        setRemainingIds((prev) =>
-                            prev.filter((pId) => pId !== id),
-                        );
-
+                        // 念のため最新を確認
+                        const currentPool = getRemainingIds();
+                        const id =
+                            currentPool[
+                                Math.floor(Math.random() * currentPool.length)
+                            ];
                         return hyakuninIsshuData.find(
                             (p) => Number(p.id) === id,
                         )!;
@@ -153,7 +170,7 @@ export const useGameLoop = (
 
                 setState("countdown");
                 for (let c = SETTINGS.COUNTDOWN.START; c > 0; c--) {
-                    if (stateRef.current as AppState === "idle") return;
+                    if ((stateRef.current as AppState) === "idle") return;
                     setCountdown(c);
                     await new Promise<void>((res) => {
                         const tid = window.setTimeout(
@@ -164,14 +181,14 @@ export const useGameLoop = (
                     });
                 }
                 setCountdown(null);
-                // 再生開始
-                if (stateRef.current as AppState !== "idle") {
+
+                if ((stateRef.current as AppState) !== "idle") {
                     await playPoem(chosen, isAuto);
                 }
             }, SETTINGS.ROULETTE.INTERVAL_MS);
             addTimer(timerId);
         },
-        [stopAll, remainingIds, playPoem, addTimer],
+        [stopAll, getRemainingIds, playPoem, addTimer],
     );
 
     useEffect(() => {
@@ -180,6 +197,7 @@ export const useGameLoop = (
 
     return {
         state,
+        setState,
         currentPoem,
         setCurrentPoem,
         displayedPoem,

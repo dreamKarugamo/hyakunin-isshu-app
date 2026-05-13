@@ -77,7 +77,6 @@ main {
     inset: 0;
     background-size: cover;
     background-position: center;
-    /*transition: opacity 1.2s ease-in-out;*/
 }
 
 #bg-blur-a,
@@ -103,9 +102,9 @@ main {
 #bg-blur-b,
 #bg-clear-a,
 #bg-clear-b {
-    transition: opacity 2000ms ease-in-out !important; 
+    transition: opacity 2700ms ease-in-out !important;
 }
-  
+
 /*
 =================================================
 タイトル・アイコン
@@ -386,7 +385,7 @@ h1 {
 
 .phrase-line {
     line-height: 1.2;
-    font-size: 3vh;
+    font-size: 25px;
 }
 
 .author {
@@ -406,7 +405,7 @@ h1 {
 #translationArea {
     margin: 10px 0;
     max-width: 750px;
-    width: 60vw;    
+    width: 60vw;
 }
 
 #translationText {
@@ -430,7 +429,7 @@ h1 {
     align-items: center;
     gap: 15px;
     width: 90%;
-    max-width: 50vw;;
+    max-width: 50vw;
 }
 
 button {
@@ -652,7 +651,7 @@ button:active:not(:disabled) {
     padding: 8px 0;
 }
 
-.reset-char  {
+.reset-char {
     font-size: 13px;
     color: peachpuff;
     text-align: center;
@@ -669,6 +668,65 @@ button:active:not(:disabled) {
         3px 3px 0px var(--color-primary);
     text-align: center;
     padding: 10px 0;
+}
+
+.congrats-overlay {
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 999999 !important;
+    background-color: rgba(0, 0, 0, 0.4); 
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.congrats-content {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid #ffd700;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.congrats-content h2 {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.congrats-content p {
+    color: #fff;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.reset-btn {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    width: 30%;
+    min-width: 300px;
+    background: #ffd700;
+    color: #000;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.reset-btn:hover {
+    transform: scale(1.05);
+    background: #ffec8b;
 }
 
 /*
@@ -690,7 +748,7 @@ button:active:not(:disabled) {
 
 /*
 =================================================
-メディアクエリ
+メディアクエリ (モバイル調整)
 =================================================
 */
 @media screen and (max-width: 600px) {
@@ -699,42 +757,39 @@ button:active:not(:disabled) {
     #bg-clear-a,
     #bg-clear-b {
         display: none;
-        /*position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-size: cover;
-        background-position: center;
-        z-index: -1;*/
+    }
+
+    body {
+        background: linear-gradient(45deg, #7b99bb, #221c75, #01142b);
     }
 
     .search-container {
-            display: flex !important; 
-            margin: 15px auto;
-        }
-        
+        display: flex !important;
+        margin: 15px auto;
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .input-box {
+        flex: 1;
+        width: auto;
+    }
+
     .hide-on-desktop {
         display: flex !important;
     }
-    
-    /* モバイル用画像エリア（メディアクエリ） */
+
     #mobileImageArea {
-        width: 75vw !important;
-        height: 30vh !important;
+        width: 85vw !important;
+        height: 25vh !important;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        border-radius: 15px;
-        margin: 20px auto !important;        
+        border-radius: var(--radius-md);
+        margin: 15px auto !important;
         display: block !important;
         overflow: hidden;
-        flex-basis: auto !important;
-        transition: background-image 2.0s ease-in-out;
-    }
-    
-    body {
-        background: linear-gradient(45deg, #7b99bb, #221c75, #01142b);
+        transition: background-image 2s ease-in-out;
     }
 
     #stars::after {
@@ -765,8 +820,8 @@ button:active:not(:disabled) {
     }
 
     #roulette {
-        font-size: 50px;
-        font-weight: normal;
+        font-size: 40px;
+        font-weight: bold;
     }
 
     #roulette:empty {
@@ -776,56 +831,89 @@ button:active:not(:disabled) {
     .countdown {
         font-size: 30px;
     }
-    
+
     #poem {
-        background: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        box-shadow: none;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(2px);
         font-size: 18px;
-        max-width: 100%;
-        margin-top: 30px;
-        padding: 10px 20px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        max-width: 90%;
+        margin-top: 15px;
+        padding: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     }
 
     .phrase-line {
-        line-height: 1.2;
-        font-size: 24px;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
     }
-    
+
     .author {
-        color: #ef4444;
+        color: #ff5252;
+        font-size: 0.85rem;
     }
 
     #translationArea {
-        margin: 30px auto;
-        width: 85%;
+        margin: 20px auto;
+        width: 90%;
     }
 
     #translationText {
-        font-size: 15px;
+        font-size: 14px;
+        line-height: 1.5;
     }
 
     .controls {
-        width: 90vw;
-        max-width: 100%;
+        width: 100%;
         padding: 10px 0;
     }
 
     #mainBtn {
-        width: 300px;
-        font-size: 18px;
-    }
-    
-    #history {
-        background: transparent;
         width: 80%;
-        border: 2px solid #000;
-        padding: 0;
+        max-width: 280px;
+        font-size: 16px;
     }
 
-    #history h3 {
-        color: #43a047;
+    #history {
+        background: rgba(255, 255, 255, 0.05);
+        width: 90%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .congrats-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 999999; 
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-backdrop-filter: blur(12px) saturate(160%);
+        backdrop-filter: blur(12px) saturate(160%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .congrats-content {
+        background: #1a1a1a;
+        padding: 40px;
+        border-radius: 24px;
+        border: 2px solid #ffd700;
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .congrats-content h2 {
+        font-size: 1.3rem;
+    }
+
+    .reset-btn {
+        width: 100%;
+        min-width: 0;
+        padding: 12px;
     }
 }

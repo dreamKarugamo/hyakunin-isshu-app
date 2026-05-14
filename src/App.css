@@ -119,7 +119,7 @@ main {
 */
 h1 {
     font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", sans-serif;
-    font-size: clamp(1rem, 3vw, 2.2rem);
+    font-size: 5vh;
     font-weight: 900;
     background: linear-gradient(45deg, #f59e0b, #ef4444, #ec4899);
     background-clip: text;
@@ -298,7 +298,7 @@ h1 {
 #roulette {
     font-family: "Shippori Mincho", "MS PMincho", "serif";
     /*margin-top: 30px;*/
-    font-size: 80px;
+    font-size: 8vh;
     font-weight: 900;
     height: 1.2em;
     display: flex;
@@ -357,12 +357,12 @@ h1 {
     font-family: "Cinzel", serif;
     color: var(--color-white);
     font-weight: bold;
-    font-size: 24px;
-    margin: 10px auto;
+    font-size: 2.5vh;
+    margin: 10px auto 0;
     width: fit-content;
     height: fit-content;
     max-width: 400px;
-    padding: 20px;
+    padding: 15px;
     background: rgba(250, 250, 250, 0.3);
     backdrop-filter: blur(3px) saturate(180%);
     -webkit-backdrop-filter: blur(3px) saturate(180%);
@@ -392,7 +392,7 @@ h1 {
 
 .phrase-line {
     line-height: 1.2;
-    font-size: 25px;
+    font-size: 2.8vh;
 }
 
 .author {
@@ -411,7 +411,7 @@ h1 {
 
 #translationArea {
     margin: 10px 0;
-    max-width: 750px;
+    max-width: 600px;
     width: 60vw;
 }
 
@@ -577,7 +577,6 @@ footer {
     width: 100%;
     display: flex;
     align-items: center;
-    /* 中央に寄せる */
     justify-content: center; 
     gap: 10px;
     padding: 10px 16px;
@@ -684,6 +683,7 @@ footer {
     text-align: center;
     display: block;
     text-decoration: underline;
+    margin-bottom: 20px;
 }
 
 .narrator {

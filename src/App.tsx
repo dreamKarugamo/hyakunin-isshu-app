@@ -81,11 +81,14 @@ const App: React.FC = () => {
 
     return (
         <div id="app">
-            <BackgroundImages bgUrl={bgUrl} isCountdown={state === "countdown"} />
+            <BackgroundImages
+                bgUrl={bgUrl}
+                isCountdown={state === "countdown"}
+            />
 
             <header>
                 <h1>
-                    <span className="icon">🐦‍⬛</span> 百人一首を覚えよう！{" "}
+                    <span className="icon">🐦‍⬛</span> 百人一首アプリ
                     <span className="icon">🦃</span>
                 </h1>
             </header>
@@ -95,7 +98,7 @@ const App: React.FC = () => {
                 <div className="congrats-overlay">
                     <div className="congrats-content">
                         <h2>🎉 Congratulations! 🎉</h2>
-                        <p>全100首をすべて読み終えました！</p>
+                        <p>全101首を読み終えました！</p>
                         <button onClick={handleReset} className="reset-btn">
                             最初からやり直す
                         </button>
@@ -142,48 +145,45 @@ const App: React.FC = () => {
                         />
                     </div>
                     <TranslationArea poem={currentPoem} visible={showAuthor} />
-
                 </div>
 
-                <div className="controls">
-                    <button
-                        id="mainBtn"
-                        onClick={handleMainAction}
-                        disabled={state === "finished"}
-                        className={
-                            isAutoMode && state !== "idle" && state !== "finished"
-                                ? "btn-stop"
-                                : "btn-start"
-                        }
-                    >
-                        {isAutoMode && state !== "idle" && state !== "finished"
-                            ? "停止する"
-                            : "ルーレット開始！"}
-                        <br />
-                        <label onClick={(e) => e.stopPropagation()}>
-                            <input
-                                type="checkbox"
-                                checked={isAutoMode}
-                                disabled={state !== "idle"}
-                                onChange={(e) => {
-                                    e.stopPropagation();
-                                    const checked = e.target.checked;
-                                    setIsAutoMode(checked);
-                                    if (checked && state === "idle") {
-                                        startRoulette(undefined, true);
-                                    } else if (!checked && state !== "idle") {
-                                        stopAll();
-                                    }
-                                }}
-                            />
-                            自動モード
-                        </label>
-                    </button>
-                </div>
+                <button
+                    id="mainBtn"
+                    onClick={handleMainAction}
+                    disabled={state === "finished"}
+                    className={
+                        (isAutoMode || (state !== 'idle')) && (state !== "finished")
+                            ? "btn-stop"
+                            : "btn-start"
+                    }
+                >
+                    {(isAutoMode || (state !== 'idle')) && (state !== "finished")
+                        ? "停止する"
+                        : "ルーレット開始！"}
+                    <br />
+                    <label onClick={(e) => e.stopPropagation()}>
+                        <input
+                            type="checkbox"
+                            checked={isAutoMode}
+                            disabled={state !== "idle"}
+                            onChange={(e) => {
+                                e.stopPropagation();
+                                const checked = e.target.checked;
+                                setIsAutoMode(checked);
+                                if (checked && state === "idle") {
+                                    startRoulette(undefined, true);
+                                } else if (!checked && state !== "idle") {
+                                    stopAll();
+                                }
+                            }}
+                        />
+                        自動モード
+                    </label>
+                </button>
             </main>
 
             <div id="stars" />
-            
+
             <footer>
                 <HistorySection
                     history={history}

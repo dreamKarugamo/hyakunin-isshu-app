@@ -80,7 +80,7 @@ const App: React.FC = () => {
     }, [clearHistory, stopAll]);
 
     return (
-        <div id="app">
+        <>
             <BackgroundImages
                 bgUrl={bgUrl}
                 isCountdown={state === "countdown"}
@@ -93,7 +93,6 @@ const App: React.FC = () => {
                 </h1>
             </header>
 
-            {/* 完了画面（Congratulations）のオーバーレイ */}
             {state === "finished" && (
                 <div className="congrats-overlay">
                     <div className="congrats-content">
@@ -152,12 +151,12 @@ const App: React.FC = () => {
                     onClick={handleMainAction}
                     disabled={state === "finished"}
                     className={
-                        (isAutoMode || (state !== 'idle')) && (state !== "finished")
+                        (isAutoMode || state !== "idle") && state !== "finished"
                             ? "btn-stop"
                             : "btn-start"
                     }
                 >
-                    {(isAutoMode || (state !== 'idle')) && (state !== "finished")
+                    {(isAutoMode || state !== "idle") && state !== "finished"
                         ? "停止する"
                         : "ルーレット開始！"}
                     <br />
@@ -192,7 +191,7 @@ const App: React.FC = () => {
                 />
                 <div className="narrator">音声：VOICEVOX: ずんだもん</div>
             </footer>
-        </div>
+        </>
     );
 };
 

@@ -11,18 +11,8 @@ CSS カスタムプロパティ
     --color-red: #f82a05;
     --color-red-bright: #ff1744;
     --color-gold: #b38728;
-
-    --shadow-text-outline:
-        2px 2px 0 var(--color-primary), -2px 2px 0 var(--color-primary),
-        2px -2px 0 var(--color-primary), -2px -2px 0 var(--color-primary),
-        0px 0px 10px rgba(0, 0, 0, 0.8);
-
     --shadow-drop: drop-shadow(2px 2px 0px var(--color-white))
         drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.2));
-
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 15px;
 }
 
 /*
@@ -41,36 +31,22 @@ body {
     font-family: "Sawarabi Mincho", serif;
     color: var(--color-primary);
     background-color: #fdfaf2;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     position: relative;
-}
-
-#app {
-    position: relative;
-    /*z-index: 1;*/
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
 }
 
 main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    justify-content: center;
     align-items: center;
 }
 
 .main-container {
     min-height: 60vh;
-    height: auto;
+    /*height: auto;*/
     display: block;
     margin: 0 auto;
-    text-align: center;
-    padding-bottom: 20px;
 }
 /*
 =================================================
@@ -83,28 +59,14 @@ main {
     position: fixed;
     inset: 0;
     background-size: cover;
-    background-position: center;
-}
-
-#bg-blur-a,
-#bg-blur-b {
-    z-index: -2;
-    filter: blur(20px) brightness(0.5);
-    transform: scale(1.1);
 }
 
 #bg-clear-a,
 #bg-clear-b {
-    z-index: -1;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-#bg-blur {
-    z-index: -2;
-    filter: blur(20px) brightness(0.5);
-    transform: scale(1.1);
-}
 #bg-blur-a,
 #bg-blur-b,
 #bg-clear-a,
@@ -118,25 +80,45 @@ main {
 =================================================
 */
 h1 {
+    text-align: center;
     font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", sans-serif;
-    font-size: 5vh;
     font-weight: 900;
     background: linear-gradient(45deg, #f59e0b, #ef4444, #ec4899);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     filter: var(--shadow-drop);
-    margin: 20px 0;
     letter-spacing: 0.1em;
 }
 
 .icon {
-    text-shadow: none;
     color: initial;
-    display: inline-block;
-    flex-shrink: 0;
     line-height: 1;
     font-size: 1.2em;
+}
+
+/*
+=================================================
+ボタンコントロール
+=================================================
+*/
+
+button {
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--color-white);
+    border: none;
+    border-radius: 12px;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    background-size: 200% auto;
+    transition:
+        transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.2s ease,
+        filter 0.2s ease,
+        background 0.5s ease;
 }
 
 /*
@@ -145,13 +127,11 @@ h1 {
 =================================================
 */
 
-.search-box {
+.search-container {
     display: flex;
     justify-content: center;
-    height: 5vh;
-}
-
-.search-container {
+    align-items: center;
+    margin: 0 auto;
     position: relative;
     display: block;
     width: 300px;
@@ -175,14 +155,19 @@ h1 {
     height: 100%;
     padding: 0;
     border-radius: 0 20px 20px 0;
-    align-items: center;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-btn:hover {
+    filter: brightness(1.5) contrast(1.2);
 }
 
 .hide-on-desktop {
     display: none;
 }
+
 /*
 =================================================
 検索パネル
@@ -191,22 +176,19 @@ h1 {
 .selection-panel-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 100;
 }
 
 .selection-panel {
     background: #fdfaf2;
     width: fit-content;
-    max-width: 800px;
     max-height: 80vh;
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    border-radius: 12px;
+    overflow-y: auto;
 }
 
 .panel-header {
@@ -221,24 +203,17 @@ h1 {
 
 .panel-header h3 {
     margin: 0;
-    font-size: 0.8rem;
     font-weight: normal;
-    color: #e0e0e0;
 }
 
-.scroll-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
-}
 
 .poem-card {
     display: flex;
     align-items: center;
     padding: 12px;
     background: white;
-    margin-bottom: 8px;
-    border-radius: var(--radius-sm);
+    margin: 8px;
+    border-radius: 8px;
     cursor: pointer;
     color: #333;
     font-size: 15px;
@@ -255,14 +230,14 @@ h1 {
 
 .no-result {
     color: #555;
+    font-size: 18px;
     text-align: center;
-    padding: 20px 0;
+    padding: 0 20px;
 }
 
 .close-btn {
     width: 36px;
     height: 36px;
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -272,22 +247,6 @@ h1 {
     color: var(--color-white);
     font-size: 1rem;
     cursor: pointer;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
-    padding: 0;
-    margin-left: 10px;
-}
-
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
-}
-
-.close-btn:active {
-    transform: translateY(0);
 }
 
 /*
@@ -297,7 +256,6 @@ h1 {
 */
 #roulette {
     font-family: "Shippori Mincho", "MS PMincho", "serif";
-    /*margin-top: 30px;*/
     font-size: 8vh;
     font-weight: 900;
     height: 1.2em;
@@ -366,13 +324,16 @@ h1 {
     background: rgba(250, 250, 250, 0.3);
     backdrop-filter: blur(3px) saturate(180%);
     -webkit-backdrop-filter: blur(3px) saturate(180%);
-    border-radius: var(--radius-lg);
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    text-shadow: var(--shadow-text-outline);
+    text-shadow:
+        2px 2px 0 var(--color-primary), -2px 2px 0 var(--color-primary),
+        2px -2px 0 var(--color-primary), -2px -2px 0 var(--color-primary),
+        0px 0px 10px rgba(0, 0, 0, 0.8);
 }
 
 .start-prompt {
@@ -418,7 +379,7 @@ h1 {
 #translationText {
     background: rgb(219, 195, 164);
     padding: 10px;
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     border: 1px solid #d7ccc8;
     text-align: left;
     font-size: 20px;
@@ -429,58 +390,6 @@ h1 {
 ボタンセクション
 =================================================
 */
-
-button {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 12px 0;
-    cursor: pointer;
-    color: var(--color-white);
-    border: none;
-    border-radius: var(--radius-md);
-    width: 300px;
-    position: relative;
-    overflow: hidden;
-    box-shadow:
-        2px 5px 0 var(--color-primary),
-        6px 10px 15px rgba(0, 0, 0, 0.3);
-    background-size: 200% auto;
-    margin: 0 auto;
-    display: block;
-}
-
-button:hover:not(:disabled) {
-    transform: translateY(-5px);
-    box-shadow:
-        5px 10px 0 var(--color-primary),
-        0 15px 25px rgba(0, 0, 0, 0.4);
-    filter: brightness(1.1) contrast(1.1);
-}
-
-button::after {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 -100%;
-    width: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-    );
-    transition: left 0.5s;
-}
-
-/*button:hover::after {
-    left: 100%;
-}*/
-
-button:active:not(:disabled) {
-    transform: translateY(2px);
-    box-shadow:
-        0 2px 0 var(--color-primary),
-        0 4px 10px rgba(0, 0, 0, 0.3);
-}
 
 #mainBtn {
     background-image: linear-gradient(135deg, #fd2828, #fc3dcc, #711cb7);
@@ -498,6 +407,14 @@ button:active:not(:disabled) {
         background 0.5s ease;
 }
 
+#mainBtn:hover:not(:disabled) {
+    transform: translateY(-5px);
+    box-shadow:
+        5px 5px 0 var(--color-primary),
+        0px 10px 10px rgba(0, 0, 0, 0.4);
+        filter: brightness(1.5) contrast(1.2);
+}
+
 #mainBtn.btn-start {
     background: linear-gradient(135deg, #fd2828, #fc3dcc, #711cb7);
 }
@@ -507,55 +424,12 @@ button:active:not(:disabled) {
 
 /*
 =================================================
-履歴エリア
+フッターエリア
 =================================================
 */
-.clear-confirm {
+
+footer { 
     display: flex;
-    width: 80%;
-    margin: 0 auto;
-    justify-content: center;
-    text-align: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    padding: 6px 0;
-}
-
-.clear-confirm-msg {
-    font-size: 13px;
-    color: peachpuff;
-}
-
-.clear-confirm-button-group {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 10px;
-}
-
-.clear-confirm-yes {
-    text-align: center;
-    font-size: 12px;
-    padding: 4px 10px;
-    width: auto;
-    background: linear-gradient(135deg, #e53935, #b71c1c);
-    border-radius: 6px;
-    box-shadow: none;
-}
-
-.clear-confirm-no {
-    font-size: 12px;
-    padding: 4px 10px;
-    width: auto;
-    background: linear-gradient(135deg, #555, #333);
-    border-radius: 6px;
-    box-shadow: none;
-}
-
-footer {
-    
-    display: flex;
-    
     flex-direction: column;
     justify-content: center;
     text-align: center;
@@ -565,7 +439,7 @@ footer {
     margin: 20px auto 15px;
     background: rgb(0, 0, 0);
     backdrop-filter: blur(5px);
-    border-radius: var(--radius-lg);
+    border-radius: 15px;
     width: fit-content;
     height: fit-content;
     min-width: 300px;
@@ -582,7 +456,7 @@ footer {
     padding: 10px 16px;
     background: transparent;
     border: none;
-    border-radius: var(--radius-lg);
+    border-radius: 15px;
     cursor: pointer;
     color: var(--color-white);
     font-family: inherit;
@@ -686,6 +560,51 @@ footer {
     margin-bottom: 20px;
 }
 
+.clear-confirm {
+    display: flex;
+    /*width: 80%;*/
+    /*margin: 0 auto;*/
+    justify-content: center;
+    /*text-align: center;*/
+    gap: 30px;
+    flex-wrap: nowrap;
+    padding: 6px 0;
+}
+
+.clear-confirm-msg {
+    font-size: 13px;
+    color: peachpuff;
+}
+
+.clear-confirm-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.clear-confirm-yes {
+    font-size: 12px;
+    padding: 4px 10px;
+    width: auto;
+    background: linear-gradient(135deg, #e53935, #b71c1c);
+    border-radius: 6px;
+}
+
+.clear-confirm-no {
+    font-size: 12px;
+    padding: 4px 10px;
+    width: auto;
+    background: linear-gradient(135deg, #555, #333);
+    border-radius: 6px;
+}
+
+.clear-confirm-yes:hover,
+.clear-confirm-no:hover {
+    transform: translateY(-3px);
+}
+
+
 .narrator {
     font-weight: 800;
     width: 100%;
@@ -697,23 +616,26 @@ footer {
     padding: 0;
 }
 
+/*
+=================================================
+クリアアクション
+=================================================
+*/
+
 .congrats-overlay {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 999999 !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
     background-color: rgba(0, 0, 0, 0.4);
-    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
-    display: flex !important;
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 !important;
-    padding: 0 !important;
+    padding: 0;
 }
 
 .congrats-content {
@@ -740,8 +662,6 @@ footer {
 .reset-btn {
     padding: 10px 20px;
     font-size: 0.8rem;
-    width: 30%;
-    min-width: 300px;
     background: #ffd700;
     color: #000;
     border: none;
@@ -753,29 +673,12 @@ footer {
 
 .reset-btn:hover {
     transform: scale(1.05);
-    background: #ffec8b;
+    filter: brightness(1.5) contrast(1.2)
 }
 
 /*
 =================================================
-アニメーション
-=================================================
-*/
-@keyframes twinkle {
-    0%,
-    100% {
-        opacity: 0.3;
-        transform: scale(0.8);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-}
-
-/*
-=================================================
-メディアクエリ (モバイル調整)
+メディアクエリ
 =================================================
 */
 @media screen and (max-width: 600px) {
@@ -790,10 +693,14 @@ footer {
         background: linear-gradient(45deg, #7b99bb, #221c75, #01142b);
     }
 
+    h1 {
+        font-size: 8vw;
+    }
+    
     .search-container {
-        display: flex !important;
+        display: flex;
         margin: 15px auto;
-        width: 90%;
+        width: 60%;
         max-width: 350px;
     }
 
@@ -802,21 +709,13 @@ footer {
         width: auto;
     }
 
-    .hide-on-desktop {
-        display: flex !important;
-    }
-
     #mobileImageArea {
-        width: 85vw !important;
+        width: 80vw !important;
         height: 25vh !important;
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
-        border-radius: var(--radius-md);
-        margin: 15px auto !important;
-        display: block !important;
-        overflow: hidden;
-        transition: background-image 2s ease-in-out;
+        border-radius: 15px;
+        margin: 20px auto;
     }
 
     #stars::after {
@@ -842,13 +741,24 @@ footer {
         animation: twinkle 60s infinite ease-in-out;
     }
 
+    @keyframes twinkle {
+        0%,
+        100% {
+            opacity: 0.3;
+            transform: scale(0.8);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    }
+
     .icon {
         display: none;
     }
 
     #roulette {
         font-size: 40px;
-        font-weight: bold;
     }
 
     #roulette:empty {
@@ -862,7 +772,7 @@ footer {
     #poem {
         background: rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(2px);
-        font-size: 18px;
+        font-size: 16px;
         max-width: 90%;
         margin-top: 15px;
         padding: 15px;
@@ -870,7 +780,7 @@ footer {
     }
 
     .phrase-line {
-        font-size: 1.2rem;
+        font-size: 0.8rem;
         margin-bottom: 5px;
     }
 
@@ -881,17 +791,12 @@ footer {
 
     #translationArea {
         margin: 20px auto;
-        width: 90%;
+        width: 80%;
     }
 
     #translationText {
-        font-size: 14px;
+        font-size: 15px;
         line-height: 1.5;
-    }
-
-    .controls {
-        width: 100%;
-        padding: 10px 0;
     }
 
     #mainBtn {
@@ -901,45 +806,23 @@ footer {
 
     #history {
         background: rgba(255, 255, 255, 0.05);
-        width: 90%;
+        width: 75%;
         border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .congrats-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
         z-index: 999999;
-        background-color: rgba(0, 0, 0, 0.5);
-        -webkit-backdrop-filter: blur(12px) saturate(160%);
-        backdrop-filter: blur(12px) saturate(160%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        padding: 0;
     }
 
     .congrats-content {
-        background: #1a1a1a;
-        padding: 40px;
-        border-radius: 24px;
-        border: 2px solid #ffd700;
-        text-align: center;
-        width: 90%;
         max-width: 400px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
     .congrats-content h2 {
         font-size: 1.3rem;
     }
 
-    .reset-btn {
-        width: 100%;
-        min-width: 0;
-        padding: 12px;
+    .narrator {
+        font-size: 18px;      
     }
 }

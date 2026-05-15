@@ -812,6 +812,23 @@ footer {
         border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
+    .clear-confirm {
+        display: block;
+        height: fit-content;
+        padding-bottom:5px;
+    }
+    
+    .clear-confirm-msg {
+        font-size: 17px;
+        color: peachpuff;
+    }
+    
+    .clear-confirm-button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
     .congrats-overlay {
         z-index: 999999;
     }

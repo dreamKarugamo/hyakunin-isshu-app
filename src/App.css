@@ -709,10 +709,14 @@ footer {
 
     button {
         -webkit-tap-highlight-color: transparent;
+        transition: none;
+        transform: none;
+        border: none;
     }
     
     .search-btn {
         width: 80px;
+        transition: none;
     }
 
     #mobileImageArea {
@@ -807,6 +811,13 @@ footer {
     #mainBtn {
         width: 250px;
         font-size: 16px;
+        transition: none;
+        transform: none;
+    }
+
+    #mainBtn:hover:not(:disabled) {
+        transform: none;
+        box-shadow: none;
     }
 
     #history {

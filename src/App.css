@@ -564,10 +564,7 @@ footer {
 
 .clear-confirm {
     display: flex;
-    /*width: 80%;*/
-    /*margin: 0 auto;*/
     justify-content: center;
-    /*text-align: center;*/
     gap: 30px;
     flex-wrap: nowrap;
     padding: 6px 0;
@@ -813,8 +810,6 @@ footer {
 
     #mainBtn {
         width: 250px;
-        transition: none;
-        transform: none;
     }
 
     #mainBtn:hover:not(:disabled) {

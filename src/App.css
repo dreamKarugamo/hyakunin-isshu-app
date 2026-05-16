@@ -316,7 +316,7 @@ button {
     font-family: "Cinzel", serif;
     color: var(--color-white);
     font-weight: bold;
-    font-size: 2.5vh;
+    font-size: 1.2rem;
     margin: 10px auto 0;
     width: fit-content;
     height: fit-content;
@@ -354,7 +354,7 @@ button {
 
 .phrase-line {
     line-height: 1.2;
-    font-size: 2.8vh;
+    font-size: 1.1rem;
 }
 
 .author {
@@ -373,7 +373,7 @@ button {
 
 #translationArea {
     margin: 10px 0;
-    max-width: 600px;
+    max-width: 630px;
     width: 60vw;
 }
 
@@ -383,7 +383,7 @@ button {
     border-radius: 8px;
     border: 1px solid #d7ccc8;
     text-align: left;
-    font-size: 20px;
+    font-size: 0.8em;
 }
 
 /*
@@ -795,7 +795,7 @@ footer {
 
     .author {
         color: #ff5252;
-        font-size: 0.85rem;
+        font-size: 18px;
     }
 
     #translationArea {
